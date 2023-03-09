@@ -25,8 +25,13 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
       with:
-        name: Build
-        path: ./app/build/outputs/apk/
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file:  app/build/outputs/apk/release/*.apk
+        tag: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
+        body: ""
